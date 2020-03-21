@@ -31,24 +31,23 @@
             <div class="grid-container">
                 <div class="grid-x grid-padding-x">
                     <div style="display: inline-flex;" class="cell">
-                        <input id="user-location-search" type="text" placeholder="Search your city..." value="">
+                        <input id="user-location-search" type="text" placeholder="Search your country to get started." value="">
                         <button id="submit-button" type="button" class="button">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <p style="margin: -1rem auto 1rem auto">Enter your state or country to get started.</p>
                 </div>
             </div>
         </form>
         <div class="grid-x">
-            <div class="large-6 cell display-none">
+            <div class="large-6 cell display-none" id="left-side">
                 <h3>Latest news</h3>
                 <div id="news-div" class="grid-container">
                 
                 </div>
             </div>
             <div class="large-6 cell display-none">
-                <h3>Data on your area</h3>
+                <h3>The data</h3>
                 <div id="data-div" class="grid-container">
                     
 
@@ -59,73 +58,12 @@
     </main>
 
     <footer>
-        Ⓒ Sebastian Williams, David Shalmi, Moojig Battsogt 2020
+        <div>Ⓒ Sebastian Williams, David Shalmi, Moojig Battsogt 2020</div>
+        <div>Data from <a href="https://newsapi.org/">NewsAPI</a> & <a href="">[insert other API name]</a></div>
     </footer>
 
 </body>
 
-<script>
-    // including this so you can copy the DOM manipulation part
-    var responseData;
-    var dataDiv = $('#data-div');
-    var newsDiv = $('#news-div');
-    function newsAPI(search, location) {
-        var apiKey = '5b5900f1a1e0479491c99baf6798e14f'
-        var location = $('#user-location-search').val();
-        var queryURL = 'http://newsapi.org/v2/everything?q=' + search + '+' + location + '&apiKey=' + apiKey;
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function(response) {
-            console.log(response);
-            responseData = response;
-            console.log(queryURL);
-
-            // attach to the DOM, use these lines to put the news articles in the DOM
-            $('#news-div').empty();
-            for (var i=0; i<5; i++) {
-                var title = response.articles[i].title;
-                var urlToImage = response.articles[i].urlToImage;
-                var content = response.articles[i].content;
-                let articleURL = response.articles[i].url;
-                let sourceName = response.articles[i].source.name;
-                
-                // Create card
-                let card = $('<div>').addClass('card').attr('style', 'width: inherit;');
-                let cardTitle = $('<div>').addClass('card-divider news-title').text(title);
-                let cardImage = $('<img>').attr('src', urlToImage)
-                let cardContentDiv = $('<div>').addClass('card-section');
-                let cardSnippet = $("<div>").text('"' + content + '"');
-                let cardSource = $("<a>").attr('href', articleURL).text(sourceName);
-
-                // Append card
-                cardContentDiv.append(cardSnippet, '<br>', 'Read more at: ', cardSource);
-                card.append(cardTitle, cardImage, cardContentDiv);
-                newsDiv.append(card);
-            }
-            //
-        });
-    }
-    function submitSearch() {
-        dataDiv.parent().removeClass('display-none');
-        newsDiv.parent().removeClass('display-none');
-        newsAPI('coronavirus+covid-19', location);
-    }
-
-    $('#submit-button').on("click", function(event) {
-        event.preventDefault();
-        submitSearch();
-    });
-    // $("#user-location-search").on("change", function(event) {
-    //     event.preventDefault();
-    //     // var keycode = (event.keyCode ? event.keyCode : event.which); // listens for the Enter key only
-    //     // if (keycode === "13") {
-    //         submitSearch();
-    //     // }
-    // });
-    // next we'll need to add user input for location, getting multiple articles, maybe a 'See more' option to get more articles
-</script>
-
-
+<script src="script.js" type="text/javascript"></script>
 
 </html>
