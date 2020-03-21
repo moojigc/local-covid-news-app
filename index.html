@@ -11,7 +11,7 @@
       integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
       crossorigin="anonymous"
     />
-    <link href="https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Poppins|Roboto|Quicksand&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- <link rel="stylesheet" type="text/css" href="assets/media.css">     -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -36,26 +36,18 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
+                    <p style="margin: -1rem auto 1rem auto">Enter your state or country to get started.</p>
                 </div>
             </div>
         </form>
         <div class="grid-x">
-            <div class="large-6 cell">
+            <div class="large-6 cell display-none">
                 <h3>Latest news</h3>
                 <div id="news-div" class="grid-container">
-                    <div class="card" style="width: 400px;">
-                        <div class="card-divider">
-                            This is a header
-                        </div>
-                        <img src="https://cdn.cnn.com/cnnnext/dam/assets/200310183837-04-super-tuesday-ii-0310-michigan-super-tease.jpg">
-                        <div class="card-section">
-                            <h4>This is a card.</h4>
-                            <p>It has an easy to override visual style, and is appropriately subdued.</p>
-                        </div>
-                    </div>
+                
                 </div>
             </div>
-            <div class="large-6 cell">
+            <div class="large-6 cell display-none">
                 <h3>Data on your area</h3>
                 <div id="data-div" class="grid-container">
                     
@@ -75,6 +67,8 @@
 <script>
     // including this so you can copy the DOM manipulation part
     var responseData;
+    var dataDiv = $('#data-div');
+    var newsDiv = $('#news-div');
     function newsAPI(search, location) {
         var apiKey = '5b5900f1a1e0479491c99baf6798e14f'
         var location = $('#user-location-search').val();
@@ -85,25 +79,53 @@
         }).then(function(response) {
             console.log(response);
             responseData = response;
-
-            var title = response.articles[0].title;
-            var urlToImage = response.articles[0].urlToImage;
-            var content = response.articles[0].content;
+            console.log(queryURL);
 
             // attach to the DOM, use these lines to put the news articles in the DOM
-            let card = $('<div>').addClass('card').attr('style', 'width: 400px;');
-            let cardTitle = $('<div>').addClass('card-divider').text(title);
-            let cardImage = $('<img>').attr('src', urlToImage)
-            let cardContent = $('<div>').addClass('card-section').text(content);
-
-            card.append(cardTitle, cardImage, cardContent);
             $('#news-div').empty();
-            $('#news-div').append(card);
+            for (var i=0; i<5; i++) {
+                var title = response.articles[i].title;
+                var urlToImage = response.articles[i].urlToImage;
+                var content = response.articles[i].content;
+                let articleURL = response.articles[i].url;
+                let sourceName = response.articles[i].source.name;
+                
+                // Create card
+                let card = $('<div>').addClass('card').attr('style', 'width: inherit;');
+                let cardTitle = $('<div>').addClass('card-divider news-title').text(title);
+                let cardImage = $('<img>').attr('src', urlToImage)
+                let cardContentDiv = $('<div>').addClass('card-section');
+                let cardSnippet = $("<div>").text('"' + content + '"');
+                let cardSource = $("<a>").attr('href', articleURL).text(sourceName);
+
+                // Append card
+                cardContentDiv.append(cardSnippet, '<br>', 'Read more at: ', cardSource);
+                card.append(cardTitle, cardImage, cardContentDiv);
+                newsDiv.append(card);
+            }
             //
         });
     }
-    newsAPI('coronavirus', 'Connecticut');
+    function submitSearch() {
+        dataDiv.parent().removeClass('display-none');
+        newsDiv.parent().removeClass('display-none');
+        newsAPI('coronavirus+covid-19', location);
+    }
+
+    $('#submit-button').on("click", function(event) {
+        event.preventDefault();
+        submitSearch();
+    });
+    // $("#user-location-search").on("change", function(event) {
+    //     event.preventDefault();
+    //     // var keycode = (event.keyCode ? event.keyCode : event.which); // listens for the Enter key only
+    //     // if (keycode === "13") {
+    //         submitSearch();
+    //     // }
+    // });
     // next we'll need to add user input for location, getting multiple articles, maybe a 'See more' option to get more articles
 </script>
+
+
 
 </html>
