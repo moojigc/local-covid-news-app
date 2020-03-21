@@ -19,20 +19,35 @@ header h1, header h5 {
     background-color: rgba(255, 255, 255, 0.562);
     /* border: 1px solid gray; */
     text-align: center;
-    max-width: 1000px;
+    max-width: 1200px;
     /* border-radius: 5px; */
-    padding: 1rem 1rem 0rem 1rem;
+    padding: 1rem 0rem 1rem 0rem;
     margin-top: 1rem;
     margin-bottom: 5rem;
     box-shadow: 0px 0px 14px 1px #b2b2b282;
 }
 .large-6 {
-    box-shadow: inset 0px 0px 10px 3px #b2b2b282;
+    /* box-shadow: 0px 0px 10px 3px #b2b2b282; */
     margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 .large-6 h3 {
-    background-color: rgba(78, 0, 0, 0.747);
+    /* background-color: rgba(78, 0, 0, 0.096); */
+    background-color: #3f788ae6;
     color: white;
+    border-top: 2px solid #3f788ae6;
+    border-bottom: 2px solid #3f788ae6;
+    /* box-shadow: 0px 0px 10px 1px #391313bd; */
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    /* width: 50%;
+    margin-left: auto;
+    margin-right: auto; */
+    padding: 0 1rem;
+}
+.large-6 h3::first-letter {
+    font-size: larger;
 }
 
 h1 {
@@ -56,14 +71,16 @@ footer {
     width: 100%;
     bottom: 0;
     margin: 0 auto;
-    padding: .6rem 0;
+    padding: .6rem 2rem;
     text-align: center;
     color: white;
     background-color: rgb(44, 44, 44);
+    display: flex;
+    justify-content: space-between;
 }
 
 .card {
-    margin: 0 auto 1rem auto;
+    margin: 1rem auto 1rem auto;
     text-align: left;
     box-shadow: 0px 0px 10px 1px #cfcfcf;
 }
@@ -76,3 +93,9 @@ footer {
 .card-divider {
     background: transparent;
 }
+
+@media screen and (min-width: 992px) {
+    #left-side {
+        border-right: 2px solid black;
+    }
+} 
