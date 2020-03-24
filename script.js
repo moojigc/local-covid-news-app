@@ -1,0 +1,57 @@
+var responseData;
+var dataDiv = $('#data-div');
+var newsDiv = $('#news-div');
+function newsAPI(search, location) {
+    var apiKey = '5b5900f1a1e0479491c99baf6798e14f'
+    var location = $('#user-location-search').val();
+    var queryURL = 'http://newsapi.org/v2/everything?q=' + search + '+' + location + '&apiKey=' + apiKey;
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+        console.log(response);
+        responseData = response;
+        console.log(queryURL);
+
+        // attach to the DOM, use these lines to put the news articles in the DOM
+        $('#news-div').empty();
+        for (var i=0; i<5; i++) {
+            var title = response.articles[i].title;
+            var urlToImage = response.articles[i].urlToImage;
+            var content = response.articles[i].content;
+            let articleURL = response.articles[i].url;
+            let sourceName = response.articles[i].source.name;
+            
+            // Create card
+            let card = $('<div>').addClass('card').attr('style', 'width: inherit;');
+            let cardTitle = $('<div>').addClass('card-divider news-title').text(title);
+            let cardImage = $('<img>').attr('src', urlToImage)
+            let cardContentDiv = $('<div>').addClass('card-section');
+            let cardSnippet = $("<div>").text('"' + content + '"');
+            let cardSource = $("<a>").attr('href', articleURL).text(sourceName);
+
+            // Append card
+            cardContentDiv.append(cardSnippet, '<br>', 'Read more at: ', cardSource);
+            card.append(cardTitle, cardImage, cardContentDiv);
+            newsDiv.append(card);
+        }
+        //
+    });
+}
+function submitSearch() {
+    dataDiv.parent().removeClass('display-none');
+    newsDiv.parent().removeClass('display-none');
+    newsAPI('coronavirus+covid-19', location);
+}
+
+$('#submit-button').on("click", function(event) {
+    event.preventDefault();
+    submitSearch();
+});
+// $("#user-location-search").on("change", function(event) {
+//     event.preventDefault();
+//     // var keycode = (event.keyCode ? event.keyCode : event.which); // listens for the Enter key only
+//     // if (keycode === "13") {
+//         submitSearch();
+//     // }
+// });
