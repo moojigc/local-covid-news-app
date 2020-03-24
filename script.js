@@ -38,10 +38,56 @@ function newsAPI(search, location) {
         //
     });
 }
+
+function coronadataAPI(location) {
+    var apiKey = '0c106cd7b1mshb071f2da45d3a0bp1c8a53jsnf62a5d04035a'
+    var location = $('#user-location-search').val();
+    var queryURLCountries = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php";
+    var queryURLWorld = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/worldstat.php";
+
+    function fetch_usa_data(){
+    return fetch(queryURLCountries, {
+        "method": "GET",
+        "headers" : {
+            "x-rapidapi-host": "coronavirus-monitor.p.rapidapi.com",
+            "x-rapidapi-key": "0c106cd7b1mshb071f2da45d3a0bp1c8a53jsnf62a5d04035a"
+        }
+    }).then(response=> response.json())}
+
+    fetch(queryURLWorld, {
+        "method": "GET",
+        "headers" : {
+            "x-rapidapi-host": "coronavirus-monitor.p.rapidapi.com",
+            "x-rapidapi-key": "0c106cd7b1mshb071f2da45d3a0bp1c8a53jsnf62a5d04035a"
+        }
+    }).then(response=> response.json().then(world_data=>{
+
+        fetch_usa_data().then(country_data=>{
+        console.log(world_data);
+        console.log(country_data);
+        var world_cases = world_data.total_cases;
+        var usa_cases = country_data.countries_stat[3].cases;
+        var title = 'Total cases: ' + world_cases + ' & USA cases: ' + usa_cases;
+        var content = 'Percentage of world cases: ' + (parseFloat(usa_cases) / parseFloat(world_cases) * 100).toFixed(2) + '%';
+
+        // attach to the DOM, use these lines to put the news articles in the DOM
+        let card = $('<div>').addClass('card').attr('style', 'width: 400px;');
+        let cardTitle = $('<div>').addClass('card-divider').text(title);
+        // let cardImage = $('<img>').attr('src', urlToImage)
+        let cardContent = $('<div>').addClass('card-section').text(content);
+        card.append(cardTitle, cardContent);
+        $('#data-div').empty();
+        $('#data-div').append(card);
+        //
+    })}));
+}
+
+
 function submitSearch() {
     dataDiv.parent().removeClass('display-none');
     newsDiv.parent().removeClass('display-none');
     newsAPI('coronavirus+covid-19', location);
+    coronadataAPI(location);
 }
 
 $('#submit-button').on("click", function(event) {
