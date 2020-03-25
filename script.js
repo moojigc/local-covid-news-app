@@ -1,7 +1,8 @@
 var responseData;
 var dataDiv = $('#data-div');
 var newsDiv = $('#news-div');
-function newsAPI(search, location) {
+
+function newsAPI(search, location, firstResult, lastResult) {
     var apiKey = '5b5900f1a1e0479491c99baf6798e14f'
     var location = $('#user-location-search').val();
     var queryURL = 'http://newsapi.org/v2/everything?q=' + search + '+' + location + '&apiKey=' + apiKey;
@@ -13,28 +14,38 @@ function newsAPI(search, location) {
         responseData = response;
         console.log(queryURL);
 
-        // attach to the DOM, use these lines to put the news articles in the DOM
-        $('#news-div').empty();
-        for (var i=0; i<5; i++) {
-            var title = response.articles[i].title;
-            var urlToImage = response.articles[i].urlToImage;
-            var content = response.articles[i].content;
-            let articleURL = response.articles[i].url;
-            let sourceName = response.articles[i].source.name;
-            
-            // Create card
-            let card = $('<div>').addClass('card').attr('style', 'width: inherit;');
-            let cardTitle = $('<div>').addClass('card-divider news-title').text(title);
-            let cardImage = $('<img>').attr('src', urlToImage)
-            let cardContentDiv = $('<div>').addClass('card-section');
-            let cardSnippet = $("<div>").text('"' + content + '"');
-            let cardSource = $("<a>").attr('href', articleURL).text(sourceName);
+        // changing the footer position so it's out of the way for better screen space.
+        // Best to leave in within the promise func so it happens simultanelously and doesn't hang out in the middle of the page while it's loading
+        $("footer").removeClass('fixed');
+        $("footer").addClass('not-fixed');
 
-            // Append card
-            cardContentDiv.append(cardSnippet, '<br>', 'Read more at: ', cardSource);
-            card.append(cardTitle, cardImage, cardContentDiv);
-            newsDiv.append(card);
+        // attach to the DOM, use these lines to put the news articles in the DOM
+        function printSearchResults() {
+            $('#news-div').empty();
+            
+            for (i=firstResult; i<lastResult; i++) {
+                var title = response.articles[i].title;
+                var urlToImage = response.articles[i].urlToImage;
+                var content = response.articles[i].content;
+                let articleURL = response.articles[i].url;
+                let sourceName = response.articles[i].source.name;
+                
+                // Create card
+                let card = $('<div>').addClass('card').attr('style', 'width: inherit;');
+                let cardTitle = $('<div>').addClass('card-divider news-title').text(title);
+                let cardImage = $('<img>').attr('src', urlToImage)
+                let cardContentDiv = $('<div>').addClass('card-section');
+                let cardSnippet = $("<div>").text('"' + content + '"');
+                let cardSource = $("<a>").attr('href', articleURL).text(sourceName);
+    
+                // Append card
+                cardContentDiv.append(cardSnippet, '<br>', 'Read more at: ', cardSource);
+                card.append(cardTitle, cardImage, cardContentDiv);
+                newsDiv.append(card);
+            }
         }
+        printSearchResults(0, 5);
+
         //
     });
 }
@@ -82,11 +93,31 @@ function coronadataAPI(location) {
     })}));
 }
 
+var pages = $('ul').find('li');
+pages.on("click", function() {
+    var newPage = $(this);
+    var curr
+
+    if (isNaN(newPage.text()) === false) {
+        $('li').removeClass('current');
+        newPage.addClass('current');
+    }
+    if (newPage.text() > 1) {
+        $('#previous-btn').removeClass('disabled');
+        console.log("Not first page");
+    } else {
+        $('#previous-btn').addClass('disabled');
+        console.log('first page');
+    }
+    
+})
+
+
 
 function submitSearch() {
     dataDiv.parent().removeClass('display-none');
     newsDiv.parent().removeClass('display-none');
-    newsAPI('coronavirus+covid-19', location);
+    newsAPI('coronavirus+covid-19', location, 0, 5);
     coronadataAPI(location);
 }
 

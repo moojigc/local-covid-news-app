@@ -42,6 +42,16 @@
         <div class="grid-x">
             <div class="large-6 cell display-none" id="left-side">
                 <h3>Latest news</h3>
+                <nav aria-label="Pagination">
+                    <ul class="pagination text-center">
+                        <li id="previous-btn" class="pagination-previous disabled">Previous</li>
+                        <li class="current">1</li>
+                        <li><a href="#" aria-label="Page 2">2</a></li>
+                        <li><a href="#" aria-label="Page 3">3</a></li>
+                        <li><a href="#" aria-label="Page 4">4</a></li>
+                        <li id="next-btn" class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                    </ul>
+                </nav>
                 <div id="news-div" class="grid-container">
                 
                 </div>
@@ -57,7 +67,7 @@
         
     </main>
 
-    <footer>
+    <footer class="fixed">
         <div>Ⓒ Sebastian Williams, David Shalmi, Moojig Battsogt 2020</div>
         <div>Data from <a href="https://newsapi.org/">NewsAPI</a> & <a href="">[insert other API name]</a></div>
     </footer>
