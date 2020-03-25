@@ -90,6 +90,9 @@ function coronadataAPI(search, location) {
         if(location == 'United States') {
             location = 'USA';
         }
+        if(location == 'United Kingdom') {
+            location = 'UK';
+        }
         for(let i = 0; i<country_data.countries_stat.length;i++){
             var country_name = country_data.countries_stat[i].country_name;
             if(country_name == location) {
