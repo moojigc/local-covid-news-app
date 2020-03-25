@@ -42,12 +42,77 @@ function submitSearch() {
     dataDiv.parent().removeClass('display-none');
     newsDiv.parent().removeClass('display-none');
     newsAPI('coronavirus+covid-19', location);
+    coronadataAPI('coronavirus', location);
 }
 
 $('#submit-button').on("click", function(event) {
     event.preventDefault();
     submitSearch();
 });
+
+function coronadataAPI(search, location) {
+    var apiKey = '0c106cd7b1mshb071f2da45d3a0bp1c8a53jsnf62a5d04035a'
+    var location = $('#user-location-search').val();
+    var queryURLCountries = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php";
+    var queryURLWorld = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/worldstat.php";
+
+    function fetch_usa_data(){
+    return fetch(queryURLCountries, {
+        "method": "GET",
+        "headers" : {
+            "x-rapidapi-host": "coronavirus-monitor.p.rapidapi.com",
+            "x-rapidapi-key": "0c106cd7b1mshb071f2da45d3a0bp1c8a53jsnf62a5d04035a"
+        }
+    }).then(response=> response.json())}
+
+    fetch(queryURLWorld, {
+        "method": "GET",
+        "headers" : {
+            "x-rapidapi-host": "coronavirus-monitor.p.rapidapi.com",
+            "x-rapidapi-key": "0c106cd7b1mshb071f2da45d3a0bp1c8a53jsnf62a5d04035a"
+        }
+    }).then(response=> response.json().then(world_data=>{
+
+        fetch_usa_data().then(country_data=>{
+        console.log(world_data);
+        console.log(country_data);
+        var world_cases = world_data.total_cases;
+        var words = location.split(" ")
+        location = []
+        for(let i = 0; i < words.length; i++){
+            if(i < words.length-1){
+                location = location + words[i][0].toUpperCase() + words[i].slice(1) + " ";
+            }
+            else{
+                location = location + words[i][0].toUpperCase() + words[i].slice(1);
+            }
+        }
+        if(location == 'United States') {
+            location = 'USA';
+        }
+        for(let i = 0; i<country_data.countries_stat.length;i++){
+            var country_name = country_data.countries_stat[i].country_name;
+            if(country_name == location) {
+                var country = i;
+                break;
+            }
+        }
+        var country_cases = country_data.countries_stat[country].cases;
+        var title = 'Total cases: ' + world_cases;
+        var content = location + ' cases: ' + country_cases;
+        var contentTwo =  'Percentage of world cases: ' + (parseFloat(country_cases) / parseFloat(world_cases) * 100).toFixed(2) + '%';
+        // attach to the DOM, use these lines to put the news articles in the DOM
+        let card = $('<div>').addClass('card').attr('style', 'width: 400px;');
+        let cardTitle = $('<div>').addClass('card-divider').text(title);
+        // let cardImage = $('<img>').attr('src', urlToImage)
+        let cardContent = $('<div>').addClass('card-section').text(content);
+        let cardContentTwo = $('<div>').addClass('card-section').text(contentTwo);
+        card.append(cardTitle, cardContent, cardContentTwo);
+        $('#data-div').empty();
+        $('#data-div').append(card);
+        //
+    })}));
+}
 // $("#user-location-search").on("change", function(event) {
 //     event.preventDefault();
 //     // var keycode = (event.keyCode ? event.keyCode : event.which); // listens for the Enter key only
