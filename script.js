@@ -94,11 +94,6 @@ function coronadataAPI(location) {
 }
 
 var pages = $('li');
-var pagesArr = [];
-for(var i=0; i<pages.length; i++) {
-    pagesArr.push(pages[i].textContent);
-}
-
 var previousBtn = $('.pagination-previous');
 var nextBtn = $('.pagination-next');
 
@@ -122,19 +117,17 @@ function whatPage() {
     pages.removeClass('current');
     for(var i=0; i < pages.length; i++) {
         if(parseInt(pages[i].textContent) === currentPage) {
-            pages[i].setAttribute("class", "current");
+            pages[i].classList.add('current');
         } 
     }
     console.log(currentPage);
 }
 // pagination event listeners
-pages.on("click", function(event) {
+$('.numbered-page').on('click', function(event) {
     event.preventDefault();
-    
-    for(var i=0; i < pages.length; i++) {
-        var pagesText = pages[i].textContent;
-        if(!isNaN(pagesText)) currentPage = parseInt($(this).text());
-    }
+
+    currentPage = parseInt($(this).text());
+
     whatPage();
     newsAPI('coronavirus+covid-19', location, currentPage, 5);
 })
@@ -167,7 +160,7 @@ function submitSearch() {
     coronadataAPI(location);
 }
 
-$('#submit-button').on("click", function(event) {
+$('#submit-button').on('click', function(event) {
     event.preventDefault();
     submitSearch();
 });
