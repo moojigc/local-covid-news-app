@@ -1,11 +1,11 @@
 var responseData;
 var dataDiv = $('#data-div');
 var newsDiv = $('#news-div');
+var currentPage = 1;
 
-function newsAPI(search, location, firstResult, lastResult) {
+function newsAPI(search, location, page, resultsPerPage) {
     var apiKey = '5b5900f1a1e0479491c99baf6798e14f'
-    var location = $('#user-location-search').val();
-    var queryURL = 'http://newsapi.org/v2/everything?q=' + search + '+' + location + '&apiKey=' + apiKey;
+    var queryURL = `https://newsapi.org/v2/everything?q=${search},+${locationEncoded}&page=${page}&pageSize=${resultsPerPage}&apiKey=${apiKey}`; 
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -23,7 +23,7 @@ function newsAPI(search, location, firstResult, lastResult) {
         function printSearchResults() {
             $('#news-div').empty();
             
-            for (i=firstResult; i<lastResult; i++) {
+            for (i=0; i<response.articles.length; i++) {
                 var title = response.articles[i].title;
                 var urlToImage = response.articles[i].urlToImage;
                 var content = response.articles[i].content;
@@ -44,7 +44,7 @@ function newsAPI(search, location, firstResult, lastResult) {
                 newsDiv.append(card);
             }
         }
-        printSearchResults(0, 5);
+        printSearchResults();
 
         //
     });
@@ -93,31 +93,77 @@ function coronadataAPI(location) {
     })}));
 }
 
-var pages = $('ul').find('li');
-pages.on("click", function() {
-    var newPage = $(this);
-    var curr
+var pages = $('li');
+var pagesArr = [];
+for(var i=0; i<pages.length; i++) {
+    pagesArr.push(pages[i].textContent);
+}
 
-    if (isNaN(newPage.text()) === false) {
-        $('li').removeClass('current');
-        newPage.addClass('current');
-    }
-    if (newPage.text() > 1) {
-        $('#previous-btn').removeClass('disabled');
-        console.log("Not first page");
+var previousBtn = $('.pagination-previous');
+var nextBtn = $('.pagination-next');
+
+// pagination function
+function whatPage() {
+    if (1 < currentPage) {
+        previousBtn.removeClass('disabled');
+        previousBtn.text('«  Previous');
     } else {
-        $('#previous-btn').addClass('disabled');
-        console.log('first page');
+        previousBtn.addClass('disabled');
+        previousBtn.text("Previous");
     }
+
+    if (currentPage > 4) {
+        $('.extra-pages').removeClass('display-none');
+        $('.added-page').text(currentPage).attr('aria-label', `Page ${currentPage}`);
+    } else {
+        $('.extra-pages').addClass('display-none');
+    }
+
+    pages.removeClass('current');
+    for(var i=0; i < pages.length; i++) {
+        if(parseInt(pages[i].textContent) === currentPage) {
+            pages[i].setAttribute("class", "current");
+        } 
+    }
+    console.log(currentPage);
+}
+// pagination event listeners
+pages.on("click", function(event) {
+    event.preventDefault();
     
+    for(var i=0; i < pages.length; i++) {
+        var pagesText = pages[i].textContent;
+        if(!isNaN(pagesText)) currentPage = parseInt($(this).text());
+    }
+    whatPage();
+    newsAPI('coronavirus+covid-19', location, currentPage, 5);
+})
+previousBtn.on('click', (event) => {
+    event.preventDefault();
+    if (currentPage > 1) currentPage--;
+
+    whatPage();
+
+    newsAPI('coronavirus+covid-19', location, currentPage, 5);
+})
+nextBtn.on('click', (event) => {
+    event.preventDefault();
+
+    if (currentPage < 20) currentPage++;
+
+    whatPage();
+
+    newsAPI('coronavirus+covid-19', location, currentPage, 5);
 })
 
 
-
 function submitSearch() {
+    var location = $('#user-location-search').val();
+    locationEncoded = encodeURIComponent(location);
+
     dataDiv.parent().removeClass('display-none');
     newsDiv.parent().removeClass('display-none');
-    newsAPI('coronavirus+covid-19', location, 0, 5);
+    newsAPI('coronavirus+covid-19', locationEncoded, 1, 5);
     coronadataAPI(location);
 }
 
@@ -125,10 +171,16 @@ $('#submit-button').on("click", function(event) {
     event.preventDefault();
     submitSearch();
 });
-// $("#user-location-search").on("change", function(event) {
-//     event.preventDefault();
-//     // var keycode = (event.keyCode ? event.keyCode : event.which); // listens for the Enter key only
-//     // if (keycode === "13") {
-//         submitSearch();
-//     // }
+// $("#user-location-search").keypress(function(event) {
+// 	event.stopPropagation();
+//     var keycode = (event.keyCode ? event.keyCode : event.which); // listens for the Enter key only
+//     if (keycode === "13") {
+//         $("#submit-button").click();
+//     }
 // });
+$("#user-location-search").keypress(function(e) {
+    if(e.which == 13) {
+        e.preventDefault();
+        $("#submit-button").click();
+    }
+});
