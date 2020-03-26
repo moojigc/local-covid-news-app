@@ -158,19 +158,14 @@ function submitSearch() {
     newsDiv.parent().removeClass('display-none');
     newsAPI('coronavirus+covid-19', locationEncoded, 1, 5);
     coronadataAPI(location);
+
 }
 
 $('#submit-button').on('click', function(event) {
     event.preventDefault();
     submitSearch();
 });
-// $("#user-location-search").keypress(function(event) {
-// 	event.stopPropagation();
-//     var keycode = (event.keyCode ? event.keyCode : event.which); // listens for the Enter key only
-//     if (keycode === "13") {
-//         $("#submit-button").click();
-//     }
-// });
+
 $("#user-location-search").keypress(function(e) {
     if(e.which == 13) {
         e.preventDefault();
