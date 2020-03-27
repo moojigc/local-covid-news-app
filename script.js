@@ -50,7 +50,7 @@ function newsAPI(search, location, page, resultsPerPage) {
     });
 }
 
-function coronadataAPI(location) {
+function coronadataAPI(search, location) {
     var apiKey = '0c106cd7b1mshb071f2da45d3a0bp1c8a53jsnf62a5d04035a'
     var location = $('#user-location-search').val();
     var queryURLCountries = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php";
@@ -77,22 +77,45 @@ function coronadataAPI(location) {
         console.log(world_data);
         console.log(country_data);
         var world_cases = world_data.total_cases;
-        var usa_cases = country_data.countries_stat[3].cases;
-        var title = 'Total cases: ' + world_cases + ' & USA cases: ' + usa_cases;
-        var content = 'Percentage of world cases: ' + (parseFloat(usa_cases) / parseFloat(world_cases) * 100).toFixed(2) + '%';
-
+        var words = location.split(" ")
+        location = []
+        for(let i = 0; i < words.length; i++){
+            if(i < words.length-1){
+                location = location + words[i][0].toUpperCase() + words[i].slice(1) + " ";
+            }
+            else{
+                location = location + words[i][0].toUpperCase() + words[i].slice(1);
+            }
+        }
+        if(location == 'United States') {
+            location = 'USA';
+        }
+        if(location == 'United Kingdom') {
+            location = 'UK';
+        }
+        for(let i = 0; i<country_data.countries_stat.length;i++){
+            var country_name = country_data.countries_stat[i].country_name;
+            if(country_name == location) {
+                var country = i;
+                break;
+            }
+        }
+        var country_cases = country_data.countries_stat[country].cases;
+        var title = 'Total cases: ' + world_cases;
+        var content = location + ' cases: ' + country_cases;
+        var contentTwo =  'Percentage of world cases: ' + (parseFloat(country_cases) / parseFloat(world_cases) * 100).toFixed(2) + '%';
         // attach to the DOM, use these lines to put the news articles in the DOM
-        let card = $('<div>').addClass('card').attr('style', 'width: 400px;');
+        let card = $('<div>').addClass('card');
         let cardTitle = $('<div>').addClass('card-divider').text(title);
         // let cardImage = $('<img>').attr('src', urlToImage)
         let cardContent = $('<div>').addClass('card-section').text(content);
-        card.append(cardTitle, cardContent);
+        let cardContentTwo = $('<div>').addClass('card-section').text(contentTwo);
+        card.append(cardTitle, cardContent, cardContentTwo);
         $('#data-div').empty();
         $('#data-div').append(card);
         //
     })}));
 }
-
 var pages = $('li');
 var previousBtn = $('.pagination-previous');
 var nextBtn = $('.pagination-next');
@@ -149,7 +172,7 @@ nextBtn.on('click', (event) => {
     newsAPI('coronavirus+covid-19', location, currentPage, 5);
 })
 
-
+// Search submission event listeners
 function submitSearch() {
     var location = $('#user-location-search').val();
     locationEncoded = encodeURIComponent(location);
@@ -158,6 +181,8 @@ function submitSearch() {
     newsDiv.parent().removeClass('display-none');
     newsAPI('coronavirus+covid-19', locationEncoded, 1, 5);
     coronadataAPI(location);
+
+    $('#disclaimer').attr('style', 'margin: 0rem 3rem; padding: 1rem')
 
 }
 
