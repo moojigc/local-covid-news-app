@@ -101,15 +101,15 @@ function coronadataAPI(search, location) {
             }
         }
         var country_cases = country_data.countries_stat[country].cases;
-        var title = 'Total cases: ' + world_cases;
+        var title = 'World cases: ' + world_cases;
         var content = location + ' cases: ' + country_cases;
-        var contentTwo =  'Percentage of world cases: ' + ((country_cases.replace(",","")) / (world_cases.replace(",","")) * 100).toFixed(2) + '%';
+        var contentTwo = 'Cases in ' + location + ' as a percentage of world cases: ' + ((country_cases.replace(",","")) / (world_cases.replace(",","")) * 100).toFixed(2) + '%';
         // attach to the DOM, use these lines to put the news articles in the DOM
-        let card = $('<div>').addClass('card').attr('style', 'width: 400px;');
+        let card = $('<div>').addClass('card');
         let cardTitle = $('<div>').addClass('card-divider').text(title);
         // let cardImage = $('<img>').attr('src', urlToImage)
-        let cardContent = $('<div>').addClass('card-section').text(content);
-        let cardContentTwo = $('<div>').addClass('card-section').text(contentTwo);
+        let cardContent = $('<div>').addClass('card-divider').text(content);
+        let cardContentTwo = $('<div>').addClass('card-divider').text(contentTwo);
         card.append(cardTitle, cardContent, cardContentTwo);
         $('#data-div').empty();
         $('#data-div').append(card);
