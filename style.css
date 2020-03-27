@@ -19,20 +19,20 @@ header h1, header h5 {
     background-color: rgba(255, 255, 255, 0.562);
     /* border: 1px solid gray; */
     text-align: center;
-    max-width: 1200px;
+    max-width: 1400px;
     /* border-radius: 5px; */
     padding: 1rem 0rem 1rem 0rem;
     margin-top: 1rem;
     margin-bottom: 5rem;
     box-shadow: 0px 0px 14px 1px #b2b2b282;
 }
-.large-6 {
+.col-title {
     /* box-shadow: 0px 0px 10px 3px #b2b2b282; */
     margin-bottom: 1rem;
     margin-left: auto;
     margin-right: auto;
 }
-.large-6 h3 {
+.col-title h3 {
     /* background-color: rgba(78, 0, 0, 0.096); */
     background-color: #3f788ae6;
     color: white;
@@ -46,7 +46,7 @@ header h1, header h5 {
     margin-right: auto; */
     padding: 0 1rem;
 }
-.large-6 h3::first-letter {
+.col-title h3::first-letter {
     font-size: larger;
 }
 
@@ -61,11 +61,25 @@ input {
 input::placeholder {
     color: black;
 }
+.shadow {
+    box-shadow: 0px 0px 14px 1px #b2b2b282;
+}
 
 #submit-button {
     margin-left: -1rem;
     border-radius: 5px;
 }
+/* for use in the footer with jQuery */
+.fixed {
+    position: fixed;
+    bottom: 0;
+    margin: 0 auto;
+}
+.not-fixed {
+    position: unset;
+    margin: 3rem auto 0 auto;
+}
+
 footer {
     position: fixed;
     width: 100%;
@@ -84,8 +98,12 @@ footer {
     text-align: left;
     box-shadow: 0px 0px 10px 1px #cfcfcf;
 }
+#data-div .card {
+    font-size: larger;
+}
+
 .display-none {
-    display: none;
+    display: none !important;
 }
 .news-title {
     font-size: 1.3rem;
@@ -94,8 +112,18 @@ footer {
     background: transparent;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 1024px) {
     #left-side {
         border-right: 2px solid black;
     }
+    #data-div {
+        position: fixed;
+        width: inherit;
+        max-width: 23.4rem;
+    }
+    #data-div .card {
+        width: auto;
+        margin: 0;
+    }
+    
 } 

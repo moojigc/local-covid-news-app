@@ -13,7 +13,6 @@
     />
     <link href="https://fonts.googleapis.com/css?family=Poppins|Roboto|Quicksand&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="style.css">
-    <!-- <link rel="stylesheet" type="text/css" href="assets/media.css">     -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.4.3/dist/js/foundation.min.js" integrity="sha256-mRYlCu5EG+ouD07WxLF8v4ZAZYCA6WrmdIXyn1Bv9Vk= sha384-KzKofw4qqetd3kvuQ5AdapWPqV1ZI+CnfyfEwZQgPk8poOLWaabfgJOfmW7uI+AV sha512-0gHfaMkY+Do568TgjJC2iMAV0dQlY4NqbeZ4pr9lVUTXQzKu8qceyd6wg/3Uql9qA2+3X5NHv3IMb05wb387rA==" crossorigin="anonymous"></script>
 </head>
@@ -21,8 +20,8 @@
 <body>
     <header class="grid-container fluid">
         <div class="grid-x">
-            <h1 class="cell">COVID-19</h1>
-            <h5 class="cell">Get the lastest news and data for your city</h3>
+            <h1 class="cell">The Novel Coronavirus COVID-19</h1>
+            <h5 class="cell">Search for recent news and data in your area</h3>
         </div>
     </header>
    
@@ -39,31 +38,64 @@
                 </div>
             </div>
         </form>
-        <div class="grid-x">
-            <div class="large-6 cell display-none" id="left-side">
-                <h3>Latest news</h3>
-                <div id="news-div" class="grid-container">
-                
-                </div>
-            </div>
-            <div class="large-6 cell display-none">
+        <div class="grid-x" style="margin-bottom: -1rem;">
+            <div class="large-4 cell display-none col-title"  id="left-side">
                 <h3>The data</h3>
                 <div id="data-div" class="grid-container">
                     
 
                 </div>
             </div>
+            <div class="large-8 cell display-none col-title">
+                <h3>Latest news</h3>
+                <nav aria-label="Pagination">
+                    <ul class="pagination text-center">
+                        <li class="pagination-previous disabled">Previous</li>
+                        <li class="current"><a class="numbered-page" href="#" aria-label="Page 1">1</a></li>
+                        <li><a class="numbered-page" href="#" aria-label="Page 2">2</a></li>
+                        <li><a class="numbered-page" href="#" aria-label="Page 3">3</a></li>
+                        <li><a class="numbered-page" href="#" aria-label="Page 4">4</a></li>
+                        <li class="extra-pages display-none">...</li>
+                        <li class="extra-pages display-none"><a class="added-page numbered-page" aria-label=""></a></li>
+                        <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                    </ul>
+                </nav>
+                <div id="news-div" class="grid-container">
+                
+                </div>
+                <nav aria-label="Pagination">
+                    <ul class="pagination text-center">
+                        <li class="pagination-previous disabled">Previous</li>
+                        <li class="current"><a class="numbered-page" href="#" aria-label="Page 1">1</a></li>
+                        <li><a class="numbered-page" href="#" aria-label="Page 2">2</a></li>
+                        <li><a class="numbered-page" href="#" aria-label="Page 3">3</a></li>
+                        <li><a class="numbered-page" href="#" aria-label="Page 4">4</a></li>
+                        <li class="extra-pages display-none">...</li>
+                        <li class="extra-pages display-none"><a class="added-page numbered-page" aria-label=""></a></li>
+                        <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
         </div>
-        
+        <div class="container shadow" id="disclaimer" style="margin: 1rem 3rem; padding: 1rem">
+            <p>
+                Disclaimer: We are not experts on viruses or COVID-19. 
+            </p>
+            <p>
+                Visit the <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">WHO's website</a> and the <a href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html">CDC's website</a> for the most accurate information regarding COVID-19.
+            </p>
+        </div>
     </main>
 
-    <footer>
+    <footer class="fixed">
         <div>Ⓒ Sebastian Williams, David Shalmi, Moojig Battsogt 2020</div>
-        <div>Data from <a href="https://newsapi.org/">NewsAPI</a> & <a href="">[insert other API name]</a></div>
+        <div>Data from <a href="https://newsapi.org/">NewsAPI</a>, <a href="https://rapidapi.com/astsiatsko/api/coronavirus-monitor/details">Coronavirus Monitor API</a> & <a href="#">[david's api]</a></div>
     </footer>
 
 </body>
 
 <script src="script.js" type="text/javascript"></script>
+
 
 </html>
