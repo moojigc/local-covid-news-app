@@ -6,7 +6,7 @@ body, html {
 }
 header {
     color: white;
-    background-color: rgba(78, 0, 0, 0.747);
+    background-color: rgba(0, 0, 0, 0.74);
     /* text-shadow: 0px 0px 20px rgba(245, 245, 245, 0.432); */
     text-align: center;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -34,10 +34,8 @@ header h1, header h5 {
 }
 .col-title h3 {
     /* background-color: rgba(78, 0, 0, 0.096); */
-    background-color: #3f788ae6;
-    color: white;
-    border-top: 2px solid #3f788ae6;
-    border-bottom: 2px solid #3f788ae6;
+    background-color: #6287f43d;
+    color: black;
     /* box-shadow: 0px 0px 10px 1px #391313bd; */
     font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
@@ -45,6 +43,7 @@ header h1, header h5 {
     margin-left: auto;
     margin-right: auto; */
     padding: 0 1rem;
+    box-shadow: 0px 0px 14px 1px #b2b2b282;
 }
 .col-title h3::first-letter {
     font-size: larger;
@@ -98,6 +97,8 @@ footer {
     text-align: left;
     box-shadow: 0px 0px 10px 1px #cfcfcf;
 }
+
+
 #data-div .card {
     font-size: larger;
 }
@@ -106,8 +107,14 @@ footer {
     display: none !important;
 }
 .news-title {
+    font-family: 'Poppins', serif;
+    text-align: center;
     font-size: 1.3rem;
 }
+.news-title::first-letter {
+    font-size: 1.5rem;
+}
+
 .card-divider {
     background: transparent;
 }

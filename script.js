@@ -4,6 +4,7 @@ var newsDiv = $('#news-div');
 var currentPage = 1;
 
 function newsAPI(search, location, page, resultsPerPage) {
+    console.log(location);
     var apiKey = '5b5900f1a1e0479491c99baf6798e14f'
     var queryURL = `https://newsapi.org/v2/everything?q=${search},+${locationEncoded}&page=${page}&pageSize=${resultsPerPage}&apiKey=${apiKey}`; 
     $.ajax({
@@ -50,9 +51,9 @@ function newsAPI(search, location, page, resultsPerPage) {
     });
 }
 
-function coronadataAPI(search, location) {
+function coronadataAPI(location) {
+    console.log(location);
     var apiKey = '0c106cd7b1mshb071f2da45d3a0bp1c8a53jsnf62a5d04035a'
-    var location = $('#user-location-search').val();
     var queryURLCountries = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php";
     var queryURLWorld = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/worldstat.php";
 
