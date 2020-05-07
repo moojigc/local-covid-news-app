@@ -104,7 +104,7 @@ function coronadataAPI(location) {
         var country_cases = country_data.countries_stat[country].cases;
         var title = 'World cases: ' + world_cases;
         var content = location + ' cases: ' + country_cases;
-        var contentTwo = 'Cases in ' + location + ' as a percentage of world cases: ' + ((country_cases.replace(",","")) / (world_cases.replace(",","")) * 100).toFixed(2) + '%';
+        var contentTwo = `Cases in ${location} as a percentage of world cases:  ${(parseFloat(country_cases.replace(",","")) / parseFloat(world_cases.replace(",","")) * 100).toFixed(2)}%`;
         // attach to the DOM, use these lines to put the news articles in the DOM
         let card = $('<div>').addClass('card');
         let cardTitle = $('<div>').addClass('card-divider').text(title);

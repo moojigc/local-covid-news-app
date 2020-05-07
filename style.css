@@ -19,7 +19,7 @@ header h1, header h5 {
     background-color: rgba(255, 255, 255, 0.562);
     /* border: 1px solid gray; */
     text-align: center;
-    max-width: 1400px;
+    max-width: 1200px;
     /* border-radius: 5px; */
     padding: 1rem 0rem 1rem 0rem;
     margin-top: 1rem;
@@ -126,7 +126,7 @@ footer {
     #data-div {
         position: fixed;
         width: inherit;
-        max-width: 23.4rem;
+        max-width: 20rem;
     }
     #data-div .card {
         width: auto;
